@@ -2,12 +2,11 @@ import { Request, Response } from 'express';
 import { sheetService } from '../service/sheet-service';
 import { z } from 'zod';
 
-async function getSheet(req: Request, res: Response) {
+export async function getSheet(req: Request, res: Response) {
     const parse = z.string().safeParse(req.query.sheetName);
     let sheetName: string;
-    
+
     if (!parse.success) {
-        console.log("failed to parse sheetName, using defaultSheet");
         sheetName = 'default';
     } else {
         sheetName = parse.data;
@@ -18,4 +17,14 @@ async function getSheet(req: Request, res: Response) {
     res.json(sheetData);
 }
 
-export { getSheet };
+export async function getWeekStatus(req: Request, res: Response) {
+    const weekStatus = await sheetService.fetchWeekStatus();
+    res.json(weekStatus);
+}
+
+export async function setTaskStatus(req: Request, res: Response) {
+    const { day, taskIndex, status } = req.body;
+    const sheetData = await sheetService.setTaskStatus(day, taskIndex, status);
+
+    res.json(sheetData);
+}

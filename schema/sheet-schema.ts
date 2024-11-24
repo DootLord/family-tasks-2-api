@@ -39,4 +39,43 @@ const sheetDataSchema = z.object({
     sunday: z.array(z.string()),
 });
 
-export { ISheetData, ISheetDataDB, sheetDataSchema };
+
+const weekSheetSchema = z.object({
+    id: z.string(),
+    'task-sheet-id': z.string(),
+    start: z.number()
+});
+
+enum TaskStatus {
+    COMPLETE = 'complete',
+    INCOMPLETE = 'incomplete',
+    DEFERRED = 'deferred'
+}
+
+enum Day {
+    MONDAY = 'monday',
+    TUESDAY = 'tuesday',
+    WEDNESDAY = 'wednesday',
+    THURSDAY = 'thursday',
+    FRIDAY = 'friday',
+    SATURDAY = 'saturday',
+    SUNDAY = 'sunday'
+}
+
+export enum DayIndex {
+    monday = 0,
+    tuesday = 1,
+    wednesday = 2,
+    thursday = 3,
+    friday = 4,
+    saturday = 5,
+    sunday = 6
+}
+
+interface IWeekSheet {
+    id: string;
+    "task-sheet-id": string;
+    start: number;
+}
+
+export { ISheetData, ISheetDataDB, sheetDataSchema, weekSheetSchema, TaskStatus, Day, IWeekSheet };

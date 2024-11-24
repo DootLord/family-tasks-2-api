@@ -1,0 +1,19 @@
+meta {
+  name: Complete Task
+  type: http
+  seq: 3
+}
+
+post {
+  url: 127.0.0.1:3000/sheet/task
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "day":"Sunday",
+    "taskIndex": "1",
+    "status": "complete"
+  }
+}
