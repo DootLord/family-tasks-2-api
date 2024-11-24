@@ -1,0 +1,8 @@
+{
+    "watch": ["./app.ts", "./config", "./routes", "./controller", "./services", "./helper", "./schema", "./service"],
+    "delay": 500,
+    "ext": "ts",
+    "execMap": {
+      "ts": "tsx app.ts"
+    }
+  }

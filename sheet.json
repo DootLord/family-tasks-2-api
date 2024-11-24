@@ -1,0 +1,9 @@
+["Dogs Out (AM)", "Feed Dogs", "Dishwasher", "Clean Kitchen", "Clean Hall", "Cook Dinner", "Dogs Out (PM)", "Bins" , "Bins 2 Road"]
+
+["adam", "adam", "dad", "adam", "adam", "dad", "adam", "jack", "x"]
+["adam+dad", "adam+dad", "x", "x", "x", "adam", "dad", "x", "x"]
+["adam+dad", "adam+dad", "jack", "adam", "x", "adam", "adam", "shaun+jack", "shaun+jack"]
+["adam+dad", "adam+dad", "adam", "adam", "jack", "adam", "jack", "x", "x"]
+["adam+dad", "adam+dad", "shaun", "adam", "x", "shaun", "shaun", "x", "x"]
+["adam+dad", "adam+dad", "shaun+adam+jack", "shaun+adam+jack", "x", "shaun", "shaun", "x", "x"]
+["shaun", "shaun", "x", "x", "shaun", "adam", "shaun", "shaun", "x"]
