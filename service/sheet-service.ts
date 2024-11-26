@@ -3,9 +3,6 @@ import { dbConfig } from '../config/mysql';
 import { sheetHelper } from '../helper/sheet.helper';
 import { Day, DayIndex, ISheetData, ISheetDataDB, IWeekSheet, TaskStatus, weekSheetSchema } from '../schema/sheet-schema';
 
-
-
-
 class SheetService {
     private connection: mysql.Connection;
 
@@ -14,7 +11,7 @@ class SheetService {
         this.connection.connect();
     }
 
-    async setTaskStatus(day: Day, index: number, status: TaskStatus): Promise<void> {
+    async setTaskStatus(day: Day, index: number, status: TaskStatus = TaskStatus.COMPLETE): Promise<void> {
         const latestWeekSheet = await this.getLatestWeekSheet();
         const taskQuery = 'INSERT INTO `task-status` (`week-sheet-id`, `day`, `job-index`, `status`) VALUES (?, ?, ?, ?)';
         const taskValues = [latestWeekSheet.id, day, index, status];
