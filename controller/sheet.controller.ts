@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { sheetService } from '../service/sheet-service';
 import { z } from 'zod';
+import { TaskStatus } from '../schema/sheet-schema';
 
 export async function getSheet(req: Request, res: Response) {
     const parse = z.string().safeParse(req.query.sheetName);
@@ -23,7 +24,8 @@ export async function getWeekStatus(req: Request, res: Response) {
 }
 
 export async function setTaskStatus(req: Request, res: Response) {
-    const { day, taskIndex, status } = req.body;
+    const { day, taskIndex } = req.body;
+    const status = req.method === 'POST' ? TaskStatus.COMPLETE : TaskStatus.INCOMPLETE;
     const sheetData = await sheetService.setTaskStatus(day, taskIndex, status);
 
     res.json(sheetData);

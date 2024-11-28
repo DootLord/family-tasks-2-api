@@ -43,17 +43,14 @@ class SheetService {
         const taskSheet = await this.fetchSheetById(weekSheet['task-sheet-id']);
         const jobLength = taskSheet.jobs.length;
 
-        let taskMatrix = Array.from({ length: 7 }, () => Array.from({ length: jobLength }, () => TaskStatus.INCOMPLETE));
-        console.log(taskMatrix);
+        let taskMatrix = Array.from({ length: 7 }, () => Array.from({ length: jobLength }, () => { return { status: TaskStatus.INCOMPLETE, "updated": 0 } })
+        );
         const taskStatuses = await this.getTaskStatuses(weekSheet.id);
 
-        console.log(taskStatuses);
-
         taskStatuses.forEach((taskStatus) => {
-            console.log(DayIndex[taskStatus.day]);
-            console.log(taskStatus['job-index']);
-            const { day, 'job-index': jobIndex, status } = taskStatus;
-            taskMatrix[DayIndex[day]][jobIndex] = status;
+            const { day, 'job-index': jobIndex, status, updated } = taskStatus;
+            taskMatrix[DayIndex[day]][jobIndex].status = status;
+            taskMatrix[DayIndex[day]][jobIndex].updated = updated;
         });
 
         return taskMatrix;
