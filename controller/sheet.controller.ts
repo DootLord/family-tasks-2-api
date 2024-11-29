@@ -30,3 +30,9 @@ export async function setTaskStatus(req: Request, res: Response) {
 
     res.json(sheetData);
 }
+
+export async function generateNewSheet(req: Request, res: Response) {
+    const { sheet } = req.body;
+    const sheetData = await sheetService.generateNewSheet(sheet);
+    res.json(sheetData);
+}

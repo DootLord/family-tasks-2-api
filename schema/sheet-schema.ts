@@ -26,6 +26,12 @@ interface ISheetData { //? Would be good to just extend ISheetDataDB
     sunday: string[];
 }
 
+export interface ISheetTemplate {
+    id: string;
+    'task-sheet-id': string;
+    start: number;
+}
+
 const sheetDataSchema = z.object({
     id: z.string(),
     name: z.string(),

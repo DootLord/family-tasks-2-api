@@ -1,7 +1,7 @@
 import mysql from 'mysql';
 import { dbConfig } from '../config/mysql';
 import { sheetHelper } from '../helper/sheet.helper';
-import { Day, DayIndex, ISheetData, ISheetDataDB, IWeekSheet, TaskStatus, weekSheetSchema } from '../schema/sheet-schema';
+import { Day, DayIndex, ISheetData, ISheetDataDB, ISheetTemplate, IWeekSheet, TaskStatus, weekSheetSchema } from '../schema/sheet-schema';
 
 class SheetService {
     private connection: mysql.Connection;
@@ -56,6 +56,18 @@ class SheetService {
         return taskMatrix;
     }
 
+    async generateNewSheet(sheet: string): Promise<string> {
+        const sheetTemplate = await this.getSheetTemplate(sheet);
+        return new Promise((resolve, reject) => {
+            const query = 'INSERT INTO `week-sheet` (`task-sheet-id`, `start`) VALUES (?, ?)';
+            const dateNow =  Date.now() / 1000;
+            this.connection.query(query, [sheetTemplate.id, dateNow], (err, result) => {
+                if (err) return reject(err);
+                resolve(result.insertId);
+            }); 
+        });
+    }
+
     private fetchSheetById(id: string): Promise<ISheetData> {
         return new Promise((resolve, reject) => {
             const query = 'SELECT * FROM `task-sheet` WHERE id = ?';
@@ -87,6 +99,16 @@ class SheetService {
                     return reject(parse.error.message);
                 }
                 resolve(parse.data as IWeekSheet);
+            });
+        });
+    }
+
+    private getSheetTemplate(sheetName: string = "default"): Promise<ISheetTemplate> {
+        const query = 'SELECT * FROM `task-sheet` WHERE name = ?';
+        return new Promise((resolve, reject) => {
+            this.connection.query(query, [sheetName], (err, rows) => {
+                if (err) return reject(err);
+                resolve(rows[0]);
             });
         });
     }

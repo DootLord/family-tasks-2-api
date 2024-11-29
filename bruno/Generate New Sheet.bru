@@ -1,0 +1,17 @@
+meta {
+  name: Generate New Sheet
+  type: http
+  seq: 5
+}
+
+post {
+  url: 127.0.0.1:3000/sheet/generate
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "sheet":"default"
+  }
+}
