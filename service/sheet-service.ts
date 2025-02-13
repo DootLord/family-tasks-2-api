@@ -1,13 +1,18 @@
 import mysql from 'mysql';
-import { dbConfig } from '../config/mysql';
 import { sheetHelper } from '../helper/sheet.helper';
 import { Day, DayIndex, ISheetData, ISheetDataDB, ISheetTemplate, IWeekSheet, TaskStatus, weekSheetSchema } from '../schema/sheet-schema';
 
 class SheetService {
     private connection: mysql.Connection;
+    private dbConfig = {
+        host: process.env.DB_HOST,
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME
+    }
 
     constructor() {
-        this.connection = mysql.createConnection(dbConfig);
+        this.connection = mysql.createConnection(this.dbConfig);
         this.connection.connect();
     }
 
@@ -60,11 +65,11 @@ class SheetService {
         const sheetTemplate = await this.getSheetTemplate(sheet);
         return new Promise((resolve, reject) => {
             const query = 'INSERT INTO `week-sheet` (`task-sheet-id`, `start`) VALUES (?, ?)';
-            const dateNow =  Date.now() / 1000;
+            const dateNow = Date.now() / 1000;
             this.connection.query(query, [sheetTemplate.id, dateNow], (err, result) => {
                 if (err) return reject(err);
                 resolve(result.insertId);
-            }); 
+            });
         });
     }
 
